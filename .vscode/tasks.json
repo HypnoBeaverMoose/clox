@@ -1,5 +1,6 @@
 {
     "tasks": [
+        
         {
             "type": "cppbuild",
             "label": "C/C++: clang build project",
@@ -22,4 +23,4 @@
         },
     ],
     "version": "2.0.0"
-}sd
+}

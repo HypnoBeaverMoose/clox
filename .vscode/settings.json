@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "clox"
-    ]
+    ],
+    "cmake.cmakePath": "/usr/local/bin/cmake"
 }
