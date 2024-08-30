@@ -5,7 +5,9 @@
 #include <stddef.h>
 #include <stdint.h>
 
-typedef enum {
+typedef enum
+{
+    OP_CONSTANT,
     OP_RETURN
 } OpCode;
 
