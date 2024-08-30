@@ -2,5 +2,8 @@
     "cSpell.words": [
         "clox"
     ],
-    "cmake.cmakePath": "/usr/local/bin/cmake"
+    "cmake.cmakePath": "/usr/local/bin/cmake",
+    "files.associations": {
+        "value.h": "c"
+    }
 }
