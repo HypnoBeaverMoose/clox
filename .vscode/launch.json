@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "(lldb) Launch",
             "type": "cppdbg",
@@ -10,9 +11,14 @@
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
-            "externalConsole": false,
+            "externalConsole": true,
             "MIMode": "lldb",
-            "preLaunchTask": "${defaultBuildTask}"
+            "preLaunchTask": "${defaultBuildTask}",
+            "logging": {
+                "moduleLoad": false,
+                "trace": true,
+                "exceptions": true
+              },
         }
     ]
 }
