@@ -26,27 +26,27 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
                                  oldCapacity, chunk->capacity);
     }
 
-    LineInfo lines = chunk->lines;
-    if (lines.count > 0 && lines.data[lines.count].line == line)
+    LineInfo *lines = &(chunk->lines);
+    if (lines->count > 0 && lines->data[lines->count].line == line)
     {
-        lines.data[lines.count].count++;
+        lines->data[lines->count].count++;
     }
     else
     {
-        int oldCapacity = lines.capacity;
-        lines.capacity = GROW_CAPACITY(oldCapacity);
-        lines.data = GROW_ARRAY(Line, lines.data,
-                                oldCapacity, lines.capacity);
+        int oldCapacity = lines->capacity;
+        lines->capacity = GROW_CAPACITY(oldCapacity);
+        lines->data = GROW_ARRAY(Line, lines->data,
+                                 oldCapacity, lines->capacity);
 
-        lines.data[lines.count].line = line;
-        lines.data[lines.count].count = 1;
-        lines.count++;
+        lines->data[lines->count].line = line;
+        lines->data[lines->count].count = 1;
+        lines->count++;
 
         printf("line info:\n");
 
-        for (size_t i; i < lines.count; i++)
+        for (size_t i = 0; i < lines->count; i++)
         {
-            printf("entry: %zu %zu\n", lines.data[i].line, lines.data[i].count);
+            printf("entry: %zu %zu\n", lines->data[i].line, lines->data[i].count);
         }
     }
     chunk->code[chunk->count] = byte;
@@ -55,7 +55,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
 
 void freeChunk(Chunk *chunk)
 {
-    FREE_ARRAY(int, chunk->lines.data, chunk->capacity);
+    FREE_ARRAY(int, &(chunk->lines.data), chunk->capacity);
     FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
     initChunk(chunk);
     freeValueArray(&chunk->constants);
