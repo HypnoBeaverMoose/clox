@@ -6,11 +6,24 @@
 
 typedef struct
 {
+    size_t line;
+    size_t count;
+} Line;
+
+typedef struct
+{
+    size_t capacity;
+    size_t count;
+    Line *data;
+} LineInfo;
+
+typedef struct
+{
     size_t capacity;
     size_t count;
     uint8_t *code;
-    int* lines;
     ValueArray constants;
+    LineInfo lines;
 } Chunk;
 
 void initChunk(Chunk *chunk);
@@ -20,5 +33,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line);
 void freeChunk(Chunk *chunk);
 
 int addConstant(Chunk *chunk, Value value);
+
+int getLine(Chunk* chunk, int offset);
 
 #endif
