@@ -31,6 +31,11 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
     {
         lines->data[lines->count].count++;
     }
+    else if (lines->count > 0 && lines->data[lines->count].line > line)
+    {
+        printf("Instruction on wrong line");
+        exit(2);
+    }
     else
     {
         int oldCapacity = lines->capacity;
@@ -41,13 +46,6 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
         lines->data[lines->count].line = line;
         lines->data[lines->count].count = 1;
         lines->count++;
-
-        printf("line info:\n");
-
-        for (size_t i = 0; i < lines->count; i++)
-        {
-            printf("entry: %zu %zu\n", lines->data[i].line, lines->data[i].count);
-        }
     }
     chunk->code[chunk->count] = byte;
     chunk->count++;
@@ -55,10 +53,12 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
 
 void freeChunk(Chunk *chunk)
 {
-    FREE_ARRAY(int, &(chunk->lines.data), chunk->capacity);
+    LineInfo *lines = &(chunk->lines);
     FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
-    initChunk(chunk);
     freeValueArray(&chunk->constants);
+    FREE_ARRAY(Line, lines->data, lines->capacity);
+
+    initChunk(chunk);
 }
 
 int addConstant(Chunk *chunk, Value value)
@@ -81,7 +81,6 @@ int getLine(Chunk *chunk, int offset)
             break;
         }
     }
-    printf("\nindex: %i\n", (int)lines.count);
 
     return (int)lines.data[i].line;
 }

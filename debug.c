@@ -58,3 +58,11 @@ int disassembleInstruction(Chunk *chunk, int offset)
         return offset + 1;
     }
 }
+
+void printLineInfo(Chunk *chunk)
+{
+    for (size_t i = 0; i < chunk->lines.count; i++)
+    {
+        printf("%zu %zu\n", chunk->lines.data[i].line, chunk->lines.data[i].count);
+    }
+}

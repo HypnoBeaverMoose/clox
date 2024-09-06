@@ -12,9 +12,11 @@ int main()
     writeChunk(&chunk, OP_CONSTANT, 123);
     writeChunk(&chunk, constant, 123);
 
-    writeChunk(&chunk, OP_RETURN, 123);
+    writeChunk(&chunk, OP_RETURN, 124);
 
     disassembleChunk(&chunk, "test");
+
+    printLineInfo(&chunk);
 
     freeChunk(&chunk);
 }
