@@ -10,13 +10,13 @@ int main()
     for (int i = 0; i < 500; i++)
     {
         writeConstant(&chunk, i, 1);
-        //int constant = addConstant(&chunk, 1.2);
     }
 
     writeChunk(&chunk, OP_RETURN, 124);
 
     disassembleChunk(&chunk, "test");
 
+    printLineInfo(&chunk);
 
     freeChunk(&chunk);
 }

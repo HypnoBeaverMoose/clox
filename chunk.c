@@ -30,7 +30,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
     LineInfo *lines = &(chunk->lines);
     if (lines->count > 0 && lines->data[lines->count - 1].line == line)
     {
-        lines->data[lines->count].count++;
+       lines->data[lines->count - 1].count++;
     }
     else
     {
