@@ -2,6 +2,7 @@
 #include "chunk.h"
 #include "memory.h"
 #include <stdio.h>
+#include<stdlib.h>
 
 void initChunk(Chunk *chunk)
 {
@@ -27,14 +28,9 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
     }
 
     LineInfo *lines = &(chunk->lines);
-    if (lines->count > 0 && lines->data[lines->count].line == line)
+    if (lines->count > 0 && lines->data[lines->count - 1].line == line)
     {
         lines->data[lines->count].count++;
-    }
-    else if (lines->count > 0 && lines->data[lines->count].line > line)
-    {
-        printf("Instruction on wrong line");
-        exit(2);
     }
     else
     {
@@ -65,6 +61,22 @@ int addConstant(Chunk *chunk, Value value)
 {
     writeValueArray(&chunk->constants, value);
     return chunk->constants.count - 1;
+}
+
+void writeConstant(Chunk *chunk, Value value, int line)
+{
+    int index = addConstant(chunk, value);
+    if (index <= 255)
+    {
+        writeChunk(chunk, OP_CONSTANT, line);
+        writeChunk(chunk, index, line);
+    }
+    else if (index <= 65535)
+    {
+        writeChunk(chunk, OP_CONSTANT_LONG, line);
+        writeChunk(chunk, index >> 8, line);
+        writeChunk(chunk, index, line);
+    }
 }
 
 int getLine(Chunk *chunk, int offset)
