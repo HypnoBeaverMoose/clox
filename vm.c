@@ -1,6 +1,7 @@
 #include "vm.h"
 #include "common.h"
 #include "debug.h"
+#include "compiler.h"
 #include <stdio.h>
 
 VM vm;
@@ -79,16 +80,14 @@ void freeVM()
 {
 }
 
-InterpretResult interpret(Chunk *chunk)
+InterpretResult interpret(const char *source)
 {
-    vm.chunk = chunk;
-    vm.ip = chunk->code;
-    return run();
+    compile(source);
+    return INTERPRET_OK;
 }
 
 void push(Value value)
 {
-    // TODO: see if this works. It should work
     *(vm.stackTop++) = value;
 }
 

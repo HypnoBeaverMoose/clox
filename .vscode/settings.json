@@ -6,6 +6,9 @@
     "files.associations": {
         "value.h": "c",
         "stdint.h": "c",
-        "chunk.h": "c"
+        "chunk.h": "c",
+        "common.h": "c",
+        "stdbool.h": "c",
+        "istream": "c"
     }
 }
