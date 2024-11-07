@@ -2,7 +2,7 @@
 #include "chunk.h"
 #include "memory.h"
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 
 void initChunk(Chunk *chunk)
 {
@@ -30,7 +30,7 @@ void writeChunk(Chunk *chunk, uint8_t byte, int line)
     LineInfo *lines = &(chunk->lines);
     if (lines->count > 0 && lines->data[lines->count - 1].line == line)
     {
-       lines->data[lines->count - 1].count++;
+        lines->data[lines->count - 1].count++;
     }
     else
     {
