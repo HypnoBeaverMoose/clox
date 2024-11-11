@@ -30,4 +30,6 @@ void push(Value value);
 
 Value pop();
 
+Value peek(int distance);
+
 #endif
