@@ -7,6 +7,11 @@
 
 VM vm;
 
+static bool isFalsey(Value value)
+{
+    return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
+}
+
 static void resetStack()
 {
     vm.stackTop = vm.stack;
@@ -30,17 +35,17 @@ static InterpretResult run()
 {
 #define READ_BYTE() (*vm.ip++)
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
-#define BINARY_OP(valueType, OP)                          \
-    do                                                    \
-    {                                                     \
+#define BINARY_OP(valueType, OP)                         \
+    do                                                   \
+    {                                                    \
         if (!(IS_NUMBER(peek(0)) && IS_NUMBER(peek(1)))) \
-        {                                                 \
-            runtimeError("Operands must be numbers.");    \
-            return INTERPRET_RUNTIME_ERROR;               \
-        }                                                 \
-        double b = AS_NUMBER(pop());                      \
-        double a = AS_NUMBER(pop());                      \
-        push(valueType(a OP b));                          \
+        {                                                \
+            runtimeError("Operands must be numbers.");   \
+            return INTERPRET_RUNTIME_ERROR;              \
+        }                                                \
+        double b = AS_NUMBER(pop());                     \
+        double a = AS_NUMBER(pop());                     \
+        push(valueType(a OP b));                         \
     } while (false)
 
     for (;;)
@@ -66,6 +71,21 @@ static InterpretResult run()
             push(constant);
             break;
         }
+        case OP_NIL:
+            push(NIL_VAL);
+            break;
+        case OP_TRUE:
+            push(BOOL_VAL(true));
+            break;
+        case OP_FALSE:
+            push(BOOL_VAL(false));
+            break;
+        case OP_EQUAL:
+            push(BOOL_VAL(valuesEqual(pop(), pop())));
+            break;
+        case OP_NOT:
+            push(BOOL_VAL(isFalsey(pop())));
+            break;
         case OP_ADD:
             BINARY_OP(NUMBER_VAL, +);
             break;
@@ -77,6 +97,12 @@ static InterpretResult run()
             break;
         case OP_DIVIDE:
             BINARY_OP(NUMBER_VAL, /);
+            break;
+        case OP_GREATER:
+            BINARY_OP(BOOL_VAL, >);
+            break;
+        case OP_LESS:
+            BINARY_OP(BOOL_VAL, <);
             break;
         case OP_NEGATE:
             if (!IS_NUMBER(peek(0)))
