@@ -73,6 +73,7 @@ static void repl()
         }
 
         interpret(line);
+        printf("\n");
     }
 }
 
