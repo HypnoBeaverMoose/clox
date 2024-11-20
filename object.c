@@ -13,6 +13,10 @@ static Obj *allocateObject(int size, ObjType type)
 {
     Obj *obj = (Obj *)reallocate(NULL, 0, size);
     obj->type = type;
+
+    obj->next = vm.objects;
+    vm.objects = obj;
+
     return obj;
 }
 

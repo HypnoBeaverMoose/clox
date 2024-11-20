@@ -159,10 +159,12 @@ static InterpretResult run()
 void initVM()
 {
     resetStack();
+    vm.objects = NULL;
 }
 
 void freeVM()
 {
+    
 }
 
 InterpretResult interpret(const char *source)
