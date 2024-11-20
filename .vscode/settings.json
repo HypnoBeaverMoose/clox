@@ -12,6 +12,7 @@
         "chunk.h": "c",
         "common.h": "c",
         "stdbool.h": "c",
-        "istream": "c"
+        "istream": "c",
+        "object.h": "c"
     }
 }
