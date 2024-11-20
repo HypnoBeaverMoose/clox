@@ -1,5 +1,6 @@
 #ifndef clox_object_h
 #define clox_object_h
+
 typedef struct Value;
 
 #include "common.h"
@@ -32,5 +33,11 @@ static inline bool isObjType(Value value, ObjType type)
 {
     return IS_OBJ(value) && AS_OBJ(value)->type == type;
 }
+ 
+ObjString* copyString(const char *chars, int length);
+
+ObjString* takeString(char* chars, int length);
+
+void printObject(Value value);
 
 #endif
