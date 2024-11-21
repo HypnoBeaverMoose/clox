@@ -16,14 +16,20 @@ static bool isFalsey(Value value)
 
 static void concatenate()
 {
-    ObjString *b = AS_STRING(pop());
-    ObjString *a = AS_STRING(pop());
+    Value valA = pop();
+    Value valB = pop();
+
+    ObjString *b = AS_STRING(valA);
+    ObjString *a = AS_STRING(valB);
+
+    char* stringA = AS_CSTRING(valA);
+    char* stringB = AS_CSTRING(valB);
 
     int length = a->length + b->length;
-    char* result = ALLOCATE(char, length + 1);
+    char *result = ALLOCATE(char, length + 1);
 
-    memcpy(result, a->chars, a->length);
-    memcpy(result + a->length, b->chars, b->length);
+    memcpy(result, stringA, a->length);
+    memcpy(result + a->length, stringB, b->length);
 
     result[length] = '\0';
 
@@ -164,7 +170,6 @@ void initVM()
 
 void freeVM()
 {
-    
 }
 
 InterpretResult interpret(const char *source)

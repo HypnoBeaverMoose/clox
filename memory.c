@@ -10,7 +10,7 @@ static void freeObject(Obj *object)
         case OBJ_STRING:
         {
             ObjString *string = (ObjString *)object;
-            FREE_ARRAY(char, string->chars, string->length + 1);
+            FREE_ARRAY(char, string->internalChars, string->length + 1);
             FREE(ObjString, object);
             break;
         }

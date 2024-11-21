@@ -71,7 +71,7 @@ bool valuesEqual(Value a, Value b)
         ObjString* aString = AS_STRING(a);
         ObjString* bString = AS_STRING(b);
         return aString->length == bString->length &&
-               memcmp(aString->chars, bString->chars, aString->length);
+               memcmp(aString->internalChars, bString->internalChars, aString->length);
     }
     default:
         return false; // Unreachable.
