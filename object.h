@@ -7,9 +7,15 @@
 #define OBJ_TYPE(value) (AS_OBJ(value)->type)
 #define IS_STRING(value) isObjType(value, OBJ_STRING)
 
-#define GET_STRING_VALUE(string) (string->externalChars == NULL ? (char *)(string + offsetof(ObjString, internalChars)) : string->externalChars);
 #define AS_STRING(value) ((ObjString *)AS_OBJ(value))
-#define AS_CSTRING(value) (GetCString(AS_STRING(value)))
+
+#define IS_EXTERNAL(string) (string->externalChars != NULL)
+#define EXTERNAL_STRING(string) (string->externalChars)
+#define INTERNAL_STRING(string) ((char*)(string + offsetof(ObjString, internalChars)))
+
+#define GET_CSTRING(string) (IS_EXTERNAL(string) ? EXTERNAL_STRING(string) : INTERNAL_STRING(string))
+
+#define AS_CSTRING(value) (GET_CSTRING(AS_STRING(value)))
 
 typedef enum
 {
@@ -29,12 +35,6 @@ struct ObjString
     char *externalChars;
     char internalChars[];
 };
-
-static inline char *GetCString(ObjString* string)
-{
-    char *pointer = (char *)(string + offsetof(ObjString, internalChars));
-    return string->externalChars == NULL ? pointer : string->externalChars;
-}
 
 static inline bool isObjType(Value value, ObjType type)
 {

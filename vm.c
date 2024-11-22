@@ -19,17 +19,14 @@ static void concatenate()
     Value valA = pop();
     Value valB = pop();
 
-    ObjString *b = AS_STRING(valA);
-    ObjString *a = AS_STRING(valB);
-
-    char* stringA = AS_CSTRING(valA);
-    char* stringB = AS_CSTRING(valB);
+    ObjString* b = AS_STRING(valA);
+    ObjString* a = AS_STRING(valB);
 
     int length = a->length + b->length;
     char *result = ALLOCATE(char, length + 1);
 
-    memcpy(result, stringA, a->length);
-    memcpy(result + a->length, stringB, b->length);
+    memcpy(result, GET_CSTRING(a), a->length);
+    memcpy(result + a->length, GET_CSTRING(b), b->length);
 
     result[length] = '\0';
 

@@ -7,20 +7,19 @@ static void freeObject(Obj *object)
 {
     switch (object->type)
     {
-    case OBJ_STRING:
-    {
-        ObjString *string = (ObjString *)object;
-        if (string->externalChars != NULL)
+        case OBJ_STRING:
         {
-            FREE_ARRAY(char, string->externalChars, string->length + 1);
-            FREE(ObjString, object);
+            ObjString *string = (ObjString *)object;
+            if (IS_EXTERNAL(string))
+            {
+                FREE(ObjString, object);
+            }
+            else
+            {
+                FREE_FLEXIBLE(ObjString, char, string->length + 1, object);
+            }
+            break;
         }
-        else
-        {
-            reallocate(object, sizeof(ObjString) + string->length * sizeof(char), 0);
-        }
-        break;
-    }
     }
 }
 

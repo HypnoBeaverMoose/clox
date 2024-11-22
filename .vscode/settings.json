@@ -27,6 +27,11 @@
         "system_error": "c",
         "tuple": "c",
         "vector": "c",
-        "string": "c"
+        "string": "c",
+        "__hash_table": "cpp",
+        "array": "cpp",
+        "charconv": "cpp",
+        "type_traits": "cpp",
+        "variant": "cpp"
     }
 }

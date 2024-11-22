@@ -19,6 +19,7 @@
     (type *)reallocate(NULL, 0, sizeof(type) * (count))
 
 #define FREE(type, pointer) reallocate(pointer, sizeof(type), 0)
+#define FREE_FLEXIBLE(type, arrayType, arraySize, pointer) reallocate(pointer, sizeof(type) + sizeof(arrayType) * arraySize, 0)
 
 
 void *reallocate(void *pointer, size_t oldSize, size_t newSize);
